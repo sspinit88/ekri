@@ -39,3 +39,26 @@ $(document).ready(function () {
         //  ]
     });
 });
+
+/*--mainFriendsSlider--*/
+$(document).ready(function () {
+    $('.mainFriendsSlider').slick({
+        dots: false,
+        autoplay: true,
+        autoplaySpeed: 5000,
+        speed: 10000,
+        fade: false,
+        zIndex: 10,
+        arrows: false,
+        // responsive: [
+        //      {
+        //          breakpoint: 1000,
+        //          settings: {
+        //              infinite: true,
+        //              dots: false,
+        //              arrows: false
+        //          }
+        //      }
+        //  ]
+    });
+});
