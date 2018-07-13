@@ -26,7 +26,7 @@ $(document).ready(function () {
         speed: 1700,
         fade: true,
         zIndex: 10,
-        arrows: false,
+        arrows: false
         // responsive: [
         //      {
         //          breakpoint: 1000,
