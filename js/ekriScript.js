@@ -15,8 +15,6 @@ $(function () {
     ); // hover
 }); // fu()
 
-
-
 /*--mainSlider--*/
 $(document).ready(function () {
     $('.mainSlider').slick({
@@ -62,3 +60,27 @@ $(document).ready(function () {
         //  ]
     });
 });
+
+/*--Поле загрузки файлов-*/
+$(document).ready( function() {
+    $(".tenderForm__upload input[type=file]").change(function(){
+        var filename = $(this).val().replace(/.*\\/, "");
+        $("#filename").val(filename);
+    });
+});
+
+/**/
+$(function () {
+
+    $('.btnTender').on('click', function () {
+        $('.over').fadeIn(500);
+        $('.tenderForm').fadeIn(500);
+        $('html, body').animate({scrollTop: 195},500);
+        return false;
+    });// .on
+    $('.closeForm').on('click', function () {
+        $('.over').fadeOut(500);
+        $('.tenderForm').fadeOut(500);
+    });// .on
+
+}); // fu()
