@@ -69,18 +69,58 @@ $(document).ready( function() {
     });
 });
 
-/**/
+/*Работа с формой "Пригласить на тендр"*/
 $(function () {
+
+    var formOn = $('.tenderForm');
 
     $('.btnTender').on('click', function () {
         $('.over').fadeIn(500);
-        $('.tenderForm').fadeIn(500);
-        $('html, body').animate({scrollTop: 195},500);
+        formOn.fadeIn(500);
+        $('html, body').animate({
+            scrollTop: formOn.offset().top},500);
         return false;
     });// .on
     $('.closeForm').on('click', function () {
         $('.over').fadeOut(500);
-        $('.tenderForm').fadeOut(500);
+        formOn.fadeOut(500);
     });// .on
 
 }); // fu()
+
+/*Валидация формы*/
+/*
+$(".tenderForm").validate({
+    rules: {
+        mail: {
+            required: true,
+            email:true
+        },
+        name:{
+            required: true,
+            minlength: 3
+        },        name:{
+            required: true,
+            minlength: 3
+        },
+        tel:{
+            required: true,
+            digits: true
+        }
+    },
+    messages:{
+        mail:{
+            required: 'Поле обязательно для заполнения.',
+            email: 'Введите корректный E-mail.'
+        },
+        name:{
+            required: 'Поле обязательно для заполнения.',
+            minlength: 'Длина имени должна бать не менее трех символов'
+        },
+        tel:{
+            required: 'Поле обязательно для заполнения.'
+        }
+    },
+    focusCleanUp: true
+});
+ */
