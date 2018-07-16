@@ -88,6 +88,36 @@ $(function () {
 
 }); // fu()
 
+/*Работа с формой "Оставить отзыв"*/
+$(function () {
+
+    var formStar = $('.reviewsForm');
+    var btnStar = $('.reviewsBtn');
+    var over = $('.over');
+    var close = $('.closeReviewsForm');
+
+    btnStar.on('click', function () {
+        over.fadeIn(500);
+        formStar.css('display','flex');
+        $('html, body').animate({
+            scrollTop: formStar.offset().top},500);
+        return false;
+    }); // btnStar
+    close.on('click', function () {
+        over.fadeOut(500);
+        formStar.fadeOut(500);
+    }); // close
+
+}); // fu()
+
+/*рейтинг в отзыве*/
+$(function() {
+    $('#example').barrating({
+        theme: 'css-stars',
+        initialRating: 5
+    });
+});
+
 /*Валидация формы*/
 /*
 $(".tenderForm").validate({
