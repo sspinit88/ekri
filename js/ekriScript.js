@@ -100,7 +100,7 @@ $(function () {
         over.fadeIn(500);
         formStar.css('display','flex');
         $('html, body').animate({
-            scrollTop: formStar.offset().top},500);
+            scrollTop: formStar.offset().top-10+'px'},500);
         return false;
     }); // btnStar
     close.on('click', function () {
