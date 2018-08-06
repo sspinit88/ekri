@@ -91,10 +91,10 @@ $(function () {
 /*Работа с формой "Оставить отзыв"*/
 $(function () {
 
-    var formStar = $('.reviewsForm');
-    var btnStar = $('.reviewsBtn');
-    var over = $('.over');
-    var close = $('.closeReviewsForm');
+    let formStar = $('.reviewsForm');
+    let btnStar = $('.reviewsBtn');
+    let over = $('.over');
+    let close = $('.closeReviewsForm');
 
     btnStar.on('click', function () {
         over.fadeIn(500);
@@ -110,7 +110,7 @@ $(function () {
 
 }); // fu()
 
-/*рейтинг в отзыве*/
+/*Рейтинг в отзыве*/
 $(function() {
     $('#example').barrating({
         theme: 'css-stars',
@@ -118,39 +118,125 @@ $(function() {
     });
 });
 
-/*Валидация формы*/
-/*
-$(".tenderForm").validate({
-    rules: {
-        mail: {
-            required: true,
-            email:true
-        },
-        name:{
-            required: true,
-            minlength: 3
-        },        name:{
-            required: true,
-            minlength: 3
-        },
-        tel:{
-            required: true,
-            digits: true
+/*Плавающий aside*/
+$(function() {
+
+// Размеры вьюпорта
+    function getViewport() {
+
+        let viewPortWidth;
+
+        if (typeof $(window).outerWidth() !== 'undefined') {
+            viewPortWidth = $(window).outerWidth();
         }
-    },
-    messages:{
-        mail:{
-            required: 'Поле обязательно для заполнения.',
-            email: 'Введите корректный E-mail.'
-        },
-        name:{
-            required: 'Поле обязательно для заполнения.',
-            minlength: 'Длина имени должна бать не менее трех символов'
-        },
-        tel:{
-            required: 'Поле обязательно для заполнения.'
+
+        return {
+            width: viewPortWidth,
+        };
+    }
+    console.log(getViewport().width);
+// Задержка выполнения функции
+    function delay () {
+        let a = 0;
+        return function (b, c){
+            clearTimeout(a);
+            a = setTimeout(b, c);
         }
-    },
-    focusCleanUp: true
-});
- */
+    }
+    /*Получаю плавающий блок*/
+    let $asideCh = $('.leftAside>ul');
+    /*Получаю родительский блок, относительно плавающего*/
+    let $aside = $('.leftAside');
+    /*Получаем верхнюю координату плавающего блока*/
+    let $asideChTop = $asideCh.offset().top;
+    /*Получаем верхнюю координату, относительно плавающего*/
+    let $asideTop = $aside.offset().top;
+//        console.log($asideTop + ' ' + '-' + ' ' + '$asideTop');
+    /*Высота плавающего*/
+    let $asideChHeight = $asideCh.outerHeight();
+    /*Высота родительского*/
+    let $asideHeight = $aside.outerHeight();
+//        console.log($asideHeight + ' ' + '-' + ' ' + '$asideHeight');
+    /*Ширина плавающего*/
+    let $asideChWidth = $asideCh.outerWidth();
+    /*Начальная координата блока, перед которым плавающий должен остановиться.*/
+    let $stopTop = $('.footer').offset().top - 30;
+//        console.log($stopTop + ' ' + '-' + ' ' + '$stopTop');
+    /*точка остановки*/
+    let stopPoint = $stopTop - $asideChHeight;
+//        console.log(stopPoint + ' ' + '-' + ' ' + 'stopPoint');
+    /**/
+    let topInStop = $asideHeight - $asideChHeight - 10;
+
+    // Задержка выполнения функции
+    let delayer = delay();
+
+    // Ширина вьюпорта
+    let viewportWidth;
+
+    // Размер вьюпорта
+    let setViewport = function () {
+        viewportWidth = getViewport().width;
+    };
+
+    // Позиционирование плавающего блока
+    let setStateFixedBlock = function () {
+
+        if (viewportWidth < 1000) {
+            $asideCh.css({
+                'position':'static',
+            });
+            return;
+        }
+
+        let $totalTop = $(this).scrollTop();
+        let $stopTopNew = $('.footer').offset().top - 30;
+        let stopPointNew = $stopTopNew - $asideChHeight;
+        let $asideTopNew = $aside.offset().top;
+
+        let $asideHeightNew = $aside.outerHeight();
+        let topInStopNew = $asideHeightNew - $asideChHeight - 10;
+
+        if( stopPointNew !== stopPoint ||
+            $asideTopNew !== $asideTop ||
+            topInStopNew !== topInStop ){
+            stopPoint = stopPointNew;
+            $asideTop = $asideTopNew;
+            topInStop = topInStopNew;
+        }
+
+        if($totalTop > stopPoint){
+            $asideCh.css({
+                'position':'absolute',
+                'top': topInStop,
+                'width': $asideChWidth,
+            });
+        }
+        else if($totalTop >= $asideTop){
+            $asideCh.css({
+                'position':'fixed',
+                'top':'0px',
+                'width': $asideChWidth,
+            });
+        }
+        else {
+            $asideCh.css({
+                'position':'static',
+            });
+        }
+    };
+
+    setViewport();
+    $(window).resize(function () {
+        delayer(function() {
+            setViewport();
+            setStateFixedBlock();
+        }, 100);
+    });
+
+    $(window).on('scroll', function () {
+        setStateFixedBlock();
+    }); // scroll
+
+
+}); // ready
